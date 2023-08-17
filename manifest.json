@@ -1,0 +1,17 @@
+{
+  "domain": "venta_air_humidifier",
+  "name": "Venta Air Humidifier",
+  "codeowners": [
+    "@mapero"
+  ],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://www.home-assistant.io/integrations/venta_air_humidifier",
+  "homekit": {},
+  "iot_class": "local_polling",
+  "requirements": [
+    "venta_protocol_v3_device==0.1.5"
+  ],
+  "ssdp": [],
+  "zeroconf": []
+}
