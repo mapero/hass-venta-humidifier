@@ -1,6 +1,7 @@
 {
   "domain": "venta_air_humidifier",
   "name": "Venta Air Humidifier",
+  "version": "1.0.0",
   "codeowners": [
     "@mapero"
   ],
