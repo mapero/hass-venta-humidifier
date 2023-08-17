@@ -7,7 +7,8 @@
   ],
   "config_flow": true,
   "dependencies": [],
-  "documentation": "https://www.home-assistant.io/integrations/venta_air_humidifier",
+  "documentation": "https://github.com/mapero/hass-venta-humidifier",
+  "issue_tracker": "https://github.com/mapero/hass-venta-humidifier/issues",
   "homekit": {},
   "iot_class": "local_polling",
   "requirements": [
