@@ -3,6 +3,9 @@ from __future__ import annotations
 
 import logging
 from typing import Any
+import urllib3
+
+from requests.exceptions import ConnectionError
 
 import voluptuous as vol
 
@@ -61,25 +64,49 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
 
-    async def async_step_user(
-        self, user_input: dict[str, Any] | None = None
-    ) -> FlowResult:
-        """Handle the initial step."""
+    async def async_step_user(self, user_input=None):
+        if user_input is not None:
+            pass
+
+        return self.async_show_menu(
+            step_id="user", menu_options=["discovery", "manual"]
+        )
+
+    async def async_step_manual(self, user_input=None):
         errors: dict[str, str] = {}
         if user_input is not None:
             try:
                 info = await validate_input(self.hass, user_input)
-            except CannotConnect:
+            except (ConnectionError, urllib3.exceptions.MaxRetryError):
                 errors["base"] = "cannot_connect"
-            except Exception:  # pylint: disable=broad-except
-                _LOGGER.exception("Unexpected exception")
-                errors["base"] = "unknown"
+            except Exception as e:  # pylint: disable=broad-except
+                errors["base"] = str(e)
             else:
                 return self.async_create_entry(title=info["title"], data=user_input)
 
         return self.async_show_form(
-            step_id="user", data_schema=DATA_SCHEMA, errors=errors
+            step_id="manual", data_schema=DATA_SCHEMA, errors=errors
         )
+
+    # async def async_step_user(
+    #     self, user_input: dict[str, Any] | None = None
+    # ) -> FlowResult:
+    #     """Handle the initial step."""
+    #     errors: dict[str, str] = {}
+    #     if user_input is not None:
+    #         try:
+    #             info = await validate_input(self.hass, user_input)
+    #         except CannotConnect:
+    #             errors["base"] = "cannot_connect"
+    #         except Exception:  # pylint: disable=broad-except
+    #             _LOGGER.exception("Unexpected exception")
+    #             errors["base"] = "unknown"
+    #         else:
+    #             return self.async_create_entry(title=info["title"], data=user_input)
+
+    #     return self.async_show_form(
+    #         step_id="user", data_schema=DATA_SCHEMA, errors=errors
+    #     )
 
 
 class CannotConnect(HomeAssistantError):
