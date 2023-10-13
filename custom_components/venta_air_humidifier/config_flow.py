@@ -88,6 +88,14 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="manual", data_schema=DATA_SCHEMA, errors=errors
         )
 
+    async def async_step_discovery(self, user_input=None):
+        """Handle a flow initialized by discovery."""
+        # TODO finish the implementation
+        if user_input is not None:
+            pass
+
+        return self.async_abort(reason="discovery_not_supported")
+
     # async def async_step_user(
     #     self, user_input: dict[str, Any] | None = None
     # ) -> FlowResult:
